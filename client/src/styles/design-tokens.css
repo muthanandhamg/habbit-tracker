@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;700;800&display=swap');
+
+:root {
+  /* Core Colors */
+  --surface: 11 19 38;
+  --surface-elevated: 22 33 62;
+  --surface-lowered: 5 10 20;
+  
+  --accent: 233 193 118; /* Muted Gold */
+  --accent-foreground: 11 19 38;
+  
+  --text-primary: 248 250 252;
+  --text-secondary: 148 163 184;
+  --text-muted: 100 116 139;
+  
+  --border-dim: rgba(233, 193, 118, 0.1);
+  --border-bright: rgba(233, 193, 118, 0.3);
+
+  /* Typography */
+  --font-editorial: 'Noto Serif', serif;
+  --font-precision: 'Manrope', sans-serif;
+  
+  /* Effects */
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: blur(12px);
+  
+  --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+  
+  /* Layout */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  
+  --spacing-unit: 8px;
+  
+  /* Iconography */
+  --icon-stroke: 1.5px;
+  --icon-size-sm: 16px;
+  --icon-size-md: 20px;
+  --icon-size-lg: 24px;
+}
+
+:root[data-theme='light'] {
+  /* Core Colors */
+  --surface: 248 250 252;
+  --surface-elevated: 255 255 255;
+  --surface-lowered: 241 245 249;
+
+  --accent: 233 193 118;
+  --accent-foreground: 11 19 38;
+
+  --text-primary: 15 23 42;
+  --text-secondary: 71 85 105;
+  --text-muted: 100 116 139;
+
+  --border-dim: rgba(15, 23, 42, 0.08);
+  --border-bright: rgba(15, 23, 42, 0.16);
+
+  /* Effects */
+  --glass-bg: rgba(15, 23, 42, 0.03);
+  --glass-border: rgba(15, 23, 42, 0.08);
+  --glass-blur: blur(10px);
+
+  --shadow-premium: 0 18px 22px -10px rgba(2, 6, 23, 0.18), 0 8px 10px -8px rgba(2, 6, 23, 0.14);
+}
