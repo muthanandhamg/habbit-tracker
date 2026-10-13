@@ -281,3 +281,4 @@ Check current AWS pricing yourself; that's part of the cost task.
 | Date | Session summary | Next step |
 |---|---|---|
 | 2026-10-13 | Roadmap created: 5 client requirements (R1 on-prem, R2 AWS+Terraform, R3 AWS-native, R4 EKS, R5 Ops) + Phase 0 kickoff | Start Phase 0.1: Jira setup |
+| 2026-10-13 | Jira: epics, Phase 0 + R1 stories, Sprint 1 started. HT-10: dev handoff v2 + prod fixes merged (PR #1, merged without review). master protection added | Finish HT-13 (protection rules, merge strategy), then HT-14 run locally with real MongoDB |
