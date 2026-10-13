@@ -15,7 +15,7 @@ const connectDB = async (): Promise<void> => {
     });
     Logger.info(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    Logger.warn('❌ Local MongoDB connection failed. Starting in-memory fallback...');
+    Logger.warn('❌ Local MongoDB connection failed. Starting in-memory fallback...', error);
     
     try {
       // Start Memory Server Fallback

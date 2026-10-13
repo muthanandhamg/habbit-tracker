@@ -1,8 +1,15 @@
 {
   "name": "shared",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "types": "src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "development": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "type": "module",
   "scripts": {
     "dev": "tsc --watch",

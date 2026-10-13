@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { Habit } from '../models/Habit.js';
 import { authenticateToken, AuthRequest } from '../middleware/auth.js';
+import { Logger } from '../utils/logger.js';
 import { habitCreateSchema, habitUpdateSchema } from 'shared';
 import { ZodError } from 'zod';
 
@@ -14,6 +15,7 @@ router.get('/', async (req, res) => {
       .sort({ createdAt: -1 });
     res.json(habits);
   } catch (error) {
+    Logger.error('Failed to fetch habits', error);
     res.status(500).json({ error: 'Failed to fetch habits' });
   }
 });
@@ -24,6 +26,7 @@ router.get('/archived', async (req, res) => {
       .sort({ updatedAt: -1 });
     res.json(habits);
   } catch (error) {
+    Logger.error('Failed to fetch archived habits', error);
     res.status(500).json({ error: 'Failed to fetch archived habits' });
   }
 });
@@ -36,6 +39,7 @@ router.get('/:id', async (req, res) => {
     }
     res.json(habit);
   } catch (error) {
+    Logger.error('Failed to fetch habit', error);
     res.status(500).json({ error: 'Failed to fetch habit' });
   }
 });
@@ -85,6 +89,7 @@ router.delete('/:id', async (req, res) => {
     }
     res.json({ message: 'Habit deleted' });
   } catch (error) {
+    Logger.error('Failed to delete habit', error);
     res.status(500).json({ error: 'Failed to delete habit' });
   }
 });
@@ -101,6 +106,7 @@ router.patch('/:id/archive', async (req, res) => {
     }
     res.json(habit);
   } catch (error) {
+    Logger.error('Failed to archive habit', error);
     res.status(500).json({ error: 'Failed to archive habit' });
   }
 });
@@ -117,6 +123,7 @@ router.patch('/:id/unarchive', async (req, res) => {
     }
     res.json(habit);
   } catch (error) {
+    Logger.error('Failed to unarchive habit', error);
     res.status(500).json({ error: 'Failed to unarchive habit' });
   }
 });
@@ -159,6 +166,7 @@ router.post('/:id/complete', async (req, res) => {
     await habit.save();
     res.json(habit);
   } catch (error) {
+    Logger.error('Failed to complete habit', error);
     res.status(500).json({ error: 'Failed to complete habit' });
   }
 });
@@ -184,6 +192,7 @@ router.post('/:id/uncomplete', async (req, res) => {
 
     res.json(habit);
   } catch (error) {
+    Logger.error('Failed to uncomplete habit', error);
     res.status(500).json({ error: 'Failed to uncomplete habit' });
   }
 });

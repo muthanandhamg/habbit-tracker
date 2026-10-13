@@ -40,7 +40,7 @@ api.interceptors.response.use(
           parsed.state.user = null;
           parsed.state.isAuthenticated = false;
           localStorage.setItem('auth-storage', JSON.stringify(parsed));
-        } catch (e) {
+        } catch {
           // Ignore parse errors
         }
       }

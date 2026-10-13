@@ -61,7 +61,7 @@ export default function Dashboard() {
         input: "Give me a 1-sentence proactive pulse check on my day based on my data. Keep it premium and motivational." 
       });
       setAiPulse(res.data.message);
-    } catch (error) {
+    } catch {
       setAiPulse("Your AI intelligence layer is currently offline. Configure your AI provider to activate proactive insights.");
 
     } finally {

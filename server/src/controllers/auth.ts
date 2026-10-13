@@ -130,6 +130,7 @@ export const getProfile = async (req: RequestWithUser, res: Response): Promise<v
       createdAt: user.createdAt,
     });
   } catch (error) {
+    Logger.error('Failed to get profile', error);
     res.status(500).json({ error: 'Failed to get profile' });
   }
 };
