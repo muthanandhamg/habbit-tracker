@@ -28,15 +28,20 @@ export const seedData = async () => {
     await Wellness.deleteMany({});
     await Journal.deleteMany({});
 
-    // Create test user
-    Logger.info('👤 Creating test user: Aiden Thorne...');
-    const hashedPassword = await bcrypt.hash('password123', 12);
+    // Create admin user (credentials come from env, never hard-coded)
+    const adminEmail = process.env.SEED_ADMIN_EMAIL;
+    const adminPassword = process.env.SEED_ADMIN_PASSWORD;
+    if (!adminEmail || !adminPassword) {
+      throw new Error('SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD must be set to seed data');
+    }
+
+    Logger.info(`👤 Creating admin user: ${adminEmail}...`);
+    const hashedPassword = await bcrypt.hash(adminPassword, 12);
     const user = await User.create({
-      username: 'athorne',
-      email: 'aiden@lifeos.com',
+      username: 'admin',
+      email: adminEmail,
       password: hashedPassword,
-      firstName: 'Aiden',
-      lastName: 'Thorne',
+      firstName: 'Admin',
     });
 
     const userId = user._id;
