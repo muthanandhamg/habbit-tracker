@@ -1,9 +1,28 @@
 # Developer → DevOps Handoff: Life-OS
 
 > **From:** Developer | **To:** DevOps | **Date:** 2026-10-13 | **Jira:** HT-10
-> **Status:** v2. Fixes applied 2026-10-13 for DB fallback, seed user, and API URL / CORS (issues #1, #2, #3, #5, #6, #9).
+> **Status:** v3. Fixes applied 2026-10-13 for DB fallback, seed user, and API URL / CORS (issues #1, #2, #3, #5, #6, #9).
+> 2026-10-14: added §0 (local development), after doc gaps reported by DevOps in HT-14.
 
 ---
+
+## 0. Run locally (development)
+
+Prerequisites: a current LTS Node (see §2) and a **running MongoDB** reachable from your machine. The app no longer
+starts without one (see §3). How you provide it (local install, container, …) is up to you; the default `MONGODB_URI`
+expects it on `localhost:27017`.
+
+| Step | Command (run from repo root) | Notes |
+|---|---|---|
+| 1. Install | `npm ci` | |
+| 2. Create config | `cp server/.env.example server/.env` | `server/.env` is git-ignored. Never commit it |
+| 3. Edit config | open `server/.env` | Check `MONGODB_URI` points at your MongoDB. Set `JWT_SECRET` to any random string. AI vars only matter for AI features |
+| 4. (Optional) seed | uncomment `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` | Only seeds an **empty** DB. Otherwise register a user in the UI |
+| 5. Start | `npm run dev` | Starts API (`:5000`, auto-reload) and frontend (`:5173`, hot reload) together |
+| 6. Open | http://localhost:5173 | The Vite dev server proxies `/api` to `:5000` |
+
+**Check it works:** `curl localhost:5000/health` → `{"status":"ok","db":"up",...}`. If the server exits with
+`💀 MongoDB connection failed`, MongoDB is not running or `MONGODB_URI` is wrong.
 
 ## 1. Build & start (production)
 
