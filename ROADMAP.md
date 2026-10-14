@@ -268,9 +268,16 @@ Check current AWS pricing yourself; that's part of the cost task.
 > Update this block at the end of every session.
 
 - **Phase:** 0, Project Kickoff (Sprint 1 started 2026-10-13: Phase 0 stories + HT-16 Docker)
-- **Done:** 0.1 Jira setup (HT-9). Epics R1 to R5 + Phase 0, R1 stories HT-16, HT-21 to HT-27 written with acceptance criteria
-- **Current task:** 0.2, HT-10: request dev handoff from the Developer (Claude)
-- **Next up:** 0.3 requirement gathering (HT-11)
+- **Done:**
+  - HT-9 Jira setup: epics R1 to R5 + Phase 0, R1 stories HT-16, HT-21 to HT-27 with acceptance criteria
+  - HT-10 dev handoff: `docs/06-devops/dev-handoff.md` v2. Dev fixed 6 of 11 issues (no in-memory DB fallback, `/health` checks DB, seed user from env, `VITE_API_URL` + `CORS_ORIGIN`). Merged in PR #1. Jira: move HT-10 to Testing (verify in HT-14)
+  - GitHub: `master` protected (PR required, 0 approvals, no bypass, lock off), squash-only merging, auto-delete branches. Verified by a rejected direct push
+- **In progress:** HT-13 branching strategy, on local branch `docs/HT-13-rewrite-branching-strategy` (**uncommitted**)
+  - `docs/06-devops/branching-strategy.md`: sections 1 to 6 written and cleaned up ✅ (doc is final)
+  - **Resume here:** `git status` → commit both files (`docs: rewrite branching strategy`), push, PR with What / Why / How to test, squash merge, clean up, Jira HT-13 → Done
+- **Next up:** HT-14 run app locally. Needs a real MongoDB now (no fallback). Think: which tool makes that a one-liner? Also decide the Node version (Node 18 is EOL; server tests need Node 20+)
+- **Open questions from the developer:** Option A (same domain + reverse proxy) or B (separate API domain) for R1? See handoff §7
+- **Housekeeping:** fix the PR #1 title/description (still auto-generated and empty)
 - **Blockers:** none
 - **Cloud resources currently running:** none
 
@@ -282,3 +289,4 @@ Check current AWS pricing yourself; that's part of the cost task.
 |---|---|---|
 | 2026-10-13 | Roadmap created: 5 client requirements (R1 on-prem, R2 AWS+Terraform, R3 AWS-native, R4 EKS, R5 Ops) + Phase 0 kickoff | Start Phase 0.1: Jira setup |
 | 2026-10-13 | Jira: epics, Phase 0 + R1 stories, Sprint 1 started. HT-10: dev handoff v2 + prod fixes merged (PR #1, merged without review). master protection added | Finish HT-13 (protection rules, merge strategy), then HT-14 run locally with real MongoDB |
+| 2026-10-13 | Git fundamentals: push, PRs (#3 to #5), branch protection tested (bypass → enforced), squash-only + auto-delete, `-d` vs `-D` after squash, remote branch delete, `reset --soft/--hard`, `sed`. Learned: enforce rules in settings, not just docs; PR title = squash commit message | Finish HT-13 doc PR, then HT-14 |
