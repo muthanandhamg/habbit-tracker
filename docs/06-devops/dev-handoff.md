@@ -53,16 +53,16 @@ Config lives in `server/.env` (template: `server/.env.example`). Real env vars o
 | `CORS_ORIGIN` | only if frontend is on another domain | no | (unset = same-origin only) | Comma-separated, e.g. `https://app.example.com` |
 | `SEED_ADMIN_EMAIL` | no | no | (unset = no seeding) | Valid email |
 | `SEED_ADMIN_PASSWORD` | no | **yes** | (unset = no seeding) | Min 8 characters |
+| `AI_PROVIDER` | no | no | `huggingface` | `huggingface` or `gemini` |
+| `HF_TOKEN` | if provider = huggingface | **yes** | — | |
+| `HF_MODEL` | no | no | built-in default | |
+| `GEMINI_API_KEY` | if provider = gemini | **yes** | — | |
 
 **Frontend (build-time, not runtime):**
 
 | Variable | Required | Default | Notes |
 |---|---|---|---|
 | `VITE_API_URL` | no | `/api` (same domain) | Baked into `client/dist` during `npm run build`. Changing it means **rebuilding** the frontend |
-| `AI_PROVIDER` | no | no | `huggingface` | `huggingface` or `gemini` |
-| `HF_TOKEN` | if provider = huggingface | **yes** | — | |
-| `HF_MODEL` | no | no | built-in default | |
-| `GEMINI_API_KEY` | if provider = gemini | **yes** | — | |
 
 ⚠️ `docs/06-devops/deployment-runbook.md` lists different variables (`EMAIL_API_KEY`, `APP_BASE_URL`, `AI_PROVIDER_API_KEY`) that **the code does not use**. This doc is the source of truth (see HT-12).
 
