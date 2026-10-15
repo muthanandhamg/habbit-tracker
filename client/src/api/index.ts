@@ -31,7 +31,10 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
+    // A 401 from login/register means wrong credentials, not an expired session:
+    // let the form show the error instead of reloading the page.
+    const isAuthRequest = error.config?.url?.startsWith('/auth/')
+    if (error.response && error.response.status === 401 && !isAuthRequest) {
       // Clear token and redirect to login
       const authStorage = localStorage.getItem('auth-storage');
       if (authStorage) {

@@ -6,14 +6,15 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(import.meta.dirname, './src'),
     },
   },
   server: {
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        // Overridable so E2E tests can run their own API on another port
+        target: process.env.API_PROXY_TARGET || 'http://localhost:5000',
         changeOrigin: true,
       },
     },

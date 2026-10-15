@@ -1,60 +1,37 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from './fixtures';
 
+// Logged in via tests/auth.setup.ts. Only the AI call is mocked (no real AI provider
+// in tests); applying the action goes through the real API.
 test.describe('AI Gateway Integration', () => {
-  test('CommandBar should open on CMD+K and submit request', async ({ page }) => {
-    // Intercept AI API request for reliable testing
+  test('CommandBar opens, submits, and applies the confirmed action', async ({ page }) => {
     await page.route('**/api/ai/process', async (route) => {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({
           type: 'wellness',
-          action: 'create',
-          data: { category: 'hydration', value: 500 },
-          message: 'Water logged successfully through AI.',
+          action: 'update',
+          data: { mood: 8 },
+          message: 'Mood logged successfully through AI.',
         }),
       });
     });
 
-    // 1. Mock authentication state in localStorage before navigation
-    await page.addInitScript(() => {
-      window.localStorage.setItem('auth-storage', JSON.stringify({
-        state: {
-          user: { id: 'test-id', email: 'test@test.com', name: 'Test User' },
-          token: 'test-token',
-          isAuthenticated: true
-        },
-        version: 0
-      }));
-    });
+    await page.goto('/');
 
-    // Go to landing page
-    await page.goto('http://localhost:5173/');
-    
-    // 2. Verify floating trigger exists
-    const trigger = page.locator('[data-testid="command-bar-trigger"]');
+    const trigger = page.getByTestId('command-bar-trigger');
     await expect(trigger).toBeVisible();
-    
-    // 2. Open CommandBar via click
     await trigger.click();
-    
-    // 3. Verify input is focused and visible
-    const input = page.locator('[data-testid="command-bar-input"]');
+
+    const input = page.getByTestId('command-bar-input');
     await expect(input).toBeVisible();
     await expect(input).toBeFocused();
-    
-    // 4. Fill and submit
-    await input.fill('I just drank 500ml water');
-    
-    // Intercept alert
-    page.once('dialog', async (dialog) => {
-      expect(dialog.message()).toContain('Water logged successfully through AI.');
-      await dialog.dismiss();
-    });
-    
-    await page.locator('[data-testid="command-bar-submit"]').click();
-    
-    // 5. Verify input is cleared
-    await expect(input).toHaveValue('');
+
+    await input.fill('I feel great today');
+    await page.getByTestId('command-bar-submit').click();
+
+    await expect(page.getByText('Mood logged successfully through AI.')).toBeVisible();
+    await page.getByRole('button', { name: 'Confirm' }).click();
+    await expect(page.getByText('Action Applied')).toBeVisible();
   });
 });

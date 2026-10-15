@@ -16,7 +16,8 @@
     "start": "npm run start --workspace=server",
     "lint": "npm run lint --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
-    "test:e2e": "npm run test --workspace=client"
+    "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install chromium"
   },
   "devDependencies": {
     "@playwright/test": "^1.58.2",

@@ -322,7 +322,7 @@ export default function Wellness() {
                 <Droplets className="w-4 h-4" /> Hydration
               </label>
               <div className="flex items-baseline gap-1">
-                <span className="text-accent-wellness font-mono text-xl">
+                <span className="text-accent-wellness font-mono text-xl" data-testid="water-intake">
                   {data?.nutrition?.waterIntake || 0}
                 </span>
                 <span className="text-xs text-text-muted">/ 3000ml</span>

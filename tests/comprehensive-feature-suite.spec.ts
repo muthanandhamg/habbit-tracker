@@ -1,138 +1,87 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect } from './fixtures';
+import { uniqueId } from './helpers';
 
+// Logged in via tests/auth.setup.ts (real user, real API, E2E database)
 test.describe('Life-OS Comprehensive Feature Suite', () => {
-  
-  // Helper to mock authentication
-  const mockAuth = async (page: Page) => {
-    await page.addInitScript(() => {
-      window.localStorage.setItem('auth-storage', JSON.stringify({
-        state: {
-          user: { id: 'test-user-123', email: 'aiden@lifeos.com', name: 'Aiden Thorne' },
-          token: 'mock-jwt-token',
-          isAuthenticated: true
-        },
-        version: 0
-      }));
-    });
-  };
-
   test.beforeEach(async ({ page }) => {
-    await mockAuth(page);
     await page.goto('/');
-    // Wait for the dashboard to render
-    await expect(page.locator('[data-testid="dashboard-container"]')).toBeVisible();
+    await expect(page.getByTestId('dashboard-container')).toBeVisible();
   });
 
   test('Navigation: Should navigate between all core modules', async ({ page }) => {
     const modules = [
       { id: 'nav-habits', url: '/habits', title: 'Habits' },
       { id: 'nav-tasks', url: '/tasks', title: 'Tasks' },
-      { id: 'nav-wellness', url: '/wellness', title: 'Wellness Tracker' },
-      { id: 'nav-journal', url: '/journal', title: 'Daily Journal' },
-      { id: 'nav-dashboard', url: '/', title: 'Good' },
+      { id: 'nav-wellness', url: '/wellness', title: 'Wellness' },
+      { id: 'nav-journal', url: '/journal', title: 'The Ledger of' },
+      { id: 'nav-dashboard', url: '/', title: /Good/ },
     ];
 
     for (const module of modules) {
-      await page.click(`[data-testid="${module.id}"]`);
+      await page.getByTestId(module.id).click();
       await page.waitForURL(new RegExp(`${module.url}$`));
-      
-      const heading = page.locator('main h1');
-      if (module.id === 'nav-dashboard') {
-        await expect(heading).toContainText(/Good/);
-      } else {
-        await expect(heading).toContainText(module.title);
-      }
+      await expect(page.locator('main h1')).toContainText(module.title);
     }
   });
 
   test('Habits: Should add and toggle a new habit', async ({ page }) => {
-    await page.click('[data-testid="nav-habits"]');
+    await page.getByTestId('nav-habits').click();
     await expect(page.locator('main h1')).toContainText('Habits');
-    
-    // Open add modal
-    await page.click('[data-testid="add-habit-button"]');
-    
-    // Fill details
-    const habitName = `Test Habit ${Date.now()}`;
-    await page.fill('[data-testid="new-habit-name"]', habitName);
-    await page.click('[data-testid="save-habit-button"]');
-    
-    // Verify added
-    const habitItem = page.locator(`[data-testid="habit-item-${habitName.toLowerCase().replace(/\s+/g, '-')}"]`);
+
+    await page.getByTestId('add-habit-button').click();
+    const habitName = `Test Habit ${uniqueId()}`;
+    await page.getByTestId('new-habit-name').fill(habitName);
+    await page.getByTestId('save-habit-button').click();
+
+    const habitItem = page.getByTestId(`habit-item-${habitName.toLowerCase().replace(/\s+/g, '-')}`);
     await expect(habitItem).toBeVisible();
-    
-    // Toggle habit
-    const toggle = habitItem.locator('[data-testid="habit-toggle"]');
+
+    const toggle = habitItem.getByTestId('habit-toggle');
     await toggle.click();
-    
-    // Verify visual change
     await expect(toggle).toHaveClass(/bg-accent-habit/);
   });
 
-  test('Tasks: Should add and toggle a must-do task', async ({ page }) => {
-    await page.click('[data-testid="nav-tasks"]');
+  test('Tasks: Should add and complete a must-do task', async ({ page }) => {
+    await page.getByTestId('nav-tasks').click();
     await expect(page.locator('main h1')).toContainText('Tasks');
-    
-    // Open add modal
-    await page.click('[data-testid="add-task-button"]');
-    
-    // Fill title
-    const taskTitle = `Critical Task ${Date.now()}`;
-    await page.fill('[data-testid="new-task-title"]', taskTitle);
-    
-    // Mark as Must-Do
-    await page.click('[data-testid="must-do-toggle"]');
-    
-    // Save
-    await page.click('[data-testid="save-task-button"]');
-    
-    // Verify in Must-Do section
-    const testId = `task-item-${taskTitle.toLowerCase().replace(/\s+/g, '-')}`;
-    const taskItem = page.locator(`[data-testid="${testId}"]`);
+
+    await page.getByTestId('add-task-button').click();
+    const taskTitle = `Critical Task ${uniqueId()}`;
+    await page.getByTestId('new-task-title').fill(taskTitle);
+    // The checkbox itself is hidden; users click its label
+    await page.getByText('High Intensity Focus').click();
+    await expect(page.getByTestId('must-do-toggle')).toBeChecked();
+    await page.getByTestId('save-task-button').click();
+
+    const taskItem = page.getByTestId(`task-item-${taskTitle.toLowerCase().replace(/\s+/g, '-')}`);
     await expect(taskItem).toBeVisible();
-    
-    // Toggle completion
-    const toggle = taskItem.locator('[data-testid="task-toggle"]');
-    await toggle.click();
-    
-    // Verify line-through appears (it might move out of Must-do, so look for text)
-    await expect(page.locator(`text=${taskTitle}`).first()).toHaveClass(/line-through/);
+
+    // Completing moves it out of the Must-Do list into the done list (struck through)
+    await taskItem.getByTestId('task-toggle').click();
+    await expect(taskItem).toHaveCount(0);
+    await expect(page.getByText(taskTitle, { exact: true })).toHaveClass(/line-through/);
   });
 
-  test('Wellness: Should log today\'s wellness metrics', async ({ page }) => {
-    await page.click('[data-testid="nav-wellness"]');
-    await expect(page.locator('main h1')).toContainText('Wellness Tracker');
-    
-    // Open log modal
-    await page.click('[data-testid="log-today-button"]');
-    
-    // Verify modal visible
-    await expect(page.locator('text=Log Today\'s Wellness')).toBeVisible();
+  test('Wellness: Should log water intake and keep it after reload', async ({ page }) => {
+    await page.getByTestId('nav-wellness').click();
+    await expect(page.locator('main h1')).toContainText('Wellness');
 
-    // Adjust sliders
-    const moodSlider = page.locator('[data-testid="mood-slider"]');
-    await moodSlider.focus();
-    await page.keyboard.press('ArrowRight');
-    
-    // Save
-    await page.click('[data-testid="save-wellness-log"]');
-    
-    // Verify modal closed
-    await expect(page.locator('text=Log Today\'s Wellness')).not.toBeVisible();
+    await page.getByTitle('750ml', { exact: true }).click();
+    await expect(page.getByTestId('water-intake')).toHaveText('750');
+
+    await page.reload();
+    await expect(page.getByTestId('water-intake')).toHaveText('750');
   });
 
   test('Journal: Should save a new journal entry', async ({ page }) => {
-    await page.click('[data-testid="nav-journal"]');
-    await expect(page.locator('main h1')).toContainText('Daily Journal');
-    
-    const entryText = `End-to-end test entry at ${new Date().toISOString()}`;
-    await page.fill('[data-testid="journal-textarea"]', entryText);
-    
-    // Save
-    await page.click('[data-testid="save-journal-button"]');
-    
-    // Verify entry appears in past entries
-    await expect(page.locator('text=' + entryText)).toBeVisible();
-  });
+    await page.getByTestId('nav-journal').click();
+    await expect(page.locator('main h1')).toContainText('The Ledger of');
 
+    await page.getByRole('button', { name: 'Capture Thought' }).click();
+    const entryText = `End-to-end test entry ${uniqueId()}`;
+    await page.getByPlaceholder('Transcribe the whispers of the mind...').fill(entryText);
+    await page.getByRole('button', { name: 'Commit to Archive' }).click();
+
+    await expect(page.getByText(entryText)).toBeVisible();
+  });
 });
