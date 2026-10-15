@@ -267,17 +267,28 @@ Check current AWS pricing yourself; that's part of the cost task.
 
 > Update this block at the end of every session.
 
-- **Phase:** 0, Project Kickoff (Sprint 1 started 2026-10-13: Phase 0 stories + HT-16 Docker)
+- **Phase:** 0, Project Kickoff (Sprint 1 started 2026-10-13: Phase 0 stories + R1 stories)
 - **Done:**
   - HT-9 Jira setup: epics R1 to R5 + Phase 0, R1 stories HT-16, HT-21 to HT-27 with acceptance criteria
-  - HT-10 dev handoff: `docs/06-devops/dev-handoff.md` v2. Dev fixed 6 of 11 issues (no in-memory DB fallback, `/health` checks DB, seed user from env, `VITE_API_URL` + `CORS_ORIGIN`). Merged in PR #1. Jira: move HT-10 to Testing (verify in HT-14)
-  - GitHub: `master` protected (PR required, 0 approvals, no bypass, lock off), squash-only merging, auto-delete branches. Verified by a rejected direct push
-- **In progress:** HT-13 branching strategy, on local branch `docs/HT-13-rewrite-branching-strategy` (**uncommitted**)
-  - `docs/06-devops/branching-strategy.md`: sections 1 to 6 written and cleaned up ✅ (doc is final)
-  - **Resume here:** `git status` → commit both files (`docs: rewrite branching strategy`), push, PR with What / Why / How to test, squash merge, clean up, Jira HT-13 → Done
-- **Next up:** HT-14 run app locally. Needs a real MongoDB now (no fallback). Think: which tool makes that a one-liner? Also decide the Node version (Node 18 is EOL; server tests need Node 20+)
+  - HT-10 dev handoff: `docs/06-devops/dev-handoff.md`, verified by real use in HT-14 (gaps fixed in PR #7, #8: §4 table, new §0 "Run locally")
+  - HT-13 branching strategy: doc final (PR #6), `master` protected, squash-only, auto-delete branches
+  - HT-14 local baseline: app runs on Node 22 + MongoDB in Docker, register + login works
+  - HT-28 (R1) pin versions: `.nvmrc` + `engines` = Node 22; MongoDB pinned to `mongo:7.0` (8+/9 fatal on kernel ≥ 6.19, SERVER-121912); README prerequisites rewritten (PR #9)
+  - HT-29 (dev) dependencies + tests (PR #10): `npm audit` 31 → **0**; react-router 7, Vite 8, Tailwind 4, ESLint 9; E2E suite repaired (10/10, isolated DB + ports, `npm run test:e2e`); app bugs fixed: Must-Do tasks never saved, wrong password reloaded the login page
+- **In progress:** nothing
+- **Next up:**
+  1. HT-11 requirement gathering: questions per client brief, ask Claude-as-client
+  2. HT-12 audit the old `deployment-runbook.md` against the code
+  3. HT-15 AWS account safety (before R2)
+  4. Then R1 starts with HT-16 Docker. Handoff §9 lists the exact lint/test/E2E commands for the Jenkins stages
+- **Open findings for DevOps:**
+  - Hugging Face token returns HTTP 402 (no credits), so AI features are offline (handoff #18). Fix the account or switch to `AI_PROVIDER=gemini`
+  - npm 10 can't change dependencies (`npm audit fix` / `npm update` crash), so use `npx npm@11` (handoff #15)
+  - ESLint 10 blocked until `eslint-plugin-react` supports it (handoff #14)
+- **Local environment:** MongoDB container `habit-tracker` (`mongo:7.0`, volume `habit-tracker-data`, port 27017), databases `habit-tracker` (dev) and `habit-tracker-e2e` (tests). Old 9.0 volume `habit-mongo-data` can't be read by 7.0: delete it once you're sure you don't need it
 - **Open questions from the developer:** Option A (same domain + reverse proxy) or B (separate API domain) for R1? See handoff §7
-- **Housekeeping:** fix the PR #1 title/description (still auto-generated and empty)
+- **Housekeeping:** PR #1 title/description still auto-generated and empty
+- **Working agreement:** open every PR as **Draft**, merge only after review (PRs #1, #6, #7, #8 were merged unreviewed; #9 was the first Draft → review → merge)
 - **Blockers:** none
 - **Cloud resources currently running:** none
 
@@ -290,3 +301,4 @@ Check current AWS pricing yourself; that's part of the cost task.
 | 2026-10-13 | Roadmap created: 5 client requirements (R1 on-prem, R2 AWS+Terraform, R3 AWS-native, R4 EKS, R5 Ops) + Phase 0 kickoff | Start Phase 0.1: Jira setup |
 | 2026-10-13 | Jira: epics, Phase 0 + R1 stories, Sprint 1 started. HT-10: dev handoff v2 + prod fixes merged (PR #1, merged without review). master protection added | Finish HT-13 (protection rules, merge strategy), then HT-14 run locally with real MongoDB |
 | 2026-10-13 | Git fundamentals: push, PRs (#3 to #5), branch protection tested (bypass → enforced), squash-only + auto-delete, `-d` vs `-D` after squash, remote branch delete, `reset --soft/--hard`, `sed`. Learned: enforce rules in settings, not just docs; PR title = squash commit message | Finish HT-13 doc PR, then HT-14 |
+| 2026-10-14/15 | Closed HT-13, HT-10, HT-14. Ran app locally (Node 22, MongoDB in Docker). HT-28: pinned Node 22 + `mongo:7.0` after a real incident (MongoDB 9 fatal on kernel 7.0). Learned: read the logs before concluding, `latest` vs pinned, published ports, named volumes, `npm ci` vs `npm install`, `git fetch` vs `pull`. First Draft PR (#9). HT-29 (dev, PR #10): 0 vulnerabilities, E2E repaired, 2 app bugs found by the fixed tests | HT-11, HT-12, HT-15, then R1 / HT-16 Docker |
