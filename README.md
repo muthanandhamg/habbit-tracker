@@ -117,10 +117,10 @@ The built-in **AI Life Assistant** can:
 ---
 
 ## 🧪 Testing & Quality
-- **Full Verification**: `npm run test` (Runs all unit and E2E tests)
-- **Backend Tests**: `npm run test --workspace=server`
-- **E2E Browser Tests**: `npm run test:e2e` (Requires Playwright browsers)
-- **Linting**: `npm run lint` (Checks all workspaces)
+- **Unit Tests**: `npm test` (server, Vitest)
+- **E2E Browser Tests**: `npm run test:e2e:install` once, then `npm run test:e2e`. Needs MongoDB running; Playwright starts its own API/frontend on ports 5100/5174 with a separate `habit-tracker-e2e` database, so your dev data is never touched
+- **Linting**: `npm run lint` (ESLint 9, all workspaces)
+- Details: [`docs/06-devops/dev-handoff.md` §9](docs/06-devops/dev-handoff.md)
 
 ---
 

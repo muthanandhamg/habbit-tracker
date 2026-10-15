@@ -3,6 +3,7 @@
 > **From:** Developer | **To:** DevOps | **Date:** 2026-10-13 | **Jira:** HT-10
 > **Status:** v3. Fixes applied 2026-10-13 for DB fallback, seed user, and API URL / CORS (issues #1, #2, #3, #5, #6, #9).
 > 2026-10-14: added §0 (local development), after doc gaps reported by DevOps in HT-14.
+> 2026-10-15: HT-29 dependency + test fixes, §8 updated, new §9 (tests).
 
 ---
 
@@ -128,5 +129,26 @@ Config lives in `server/.env` (template: `server/.env.example`). Real env vars o
 | 7 | No graceful shutdown on `SIGTERM` | In-flight requests dropped on deploy or stop | Dev |
 | 8 | INFO logs hidden in production; plain-text format | Harder troubleshooting and log parsing | Dev + DevOps (agree on format) |
 | 9 | ~~CORS open to all origins~~ | ✅ Fixed: `CORS_ORIGIN` allowlist | — |
-| 10 | Node 18 EOL; server unit tests fail to start on Node 18 | No security patches; CI test stage will fail | DevOps (runtime) |
+| 10 | ~~Node 18 EOL; server unit tests fail to start on Node 18~~ | ✅ Fixed: Node 22 pinned (HT-28, PR #9) | — |
 | 11 | AI endpoints rate-limited per IP (10/min) | Behind a proxy, every user may share one IP | Dev + DevOps (proxy headers) |
+| 12 | ~~31 npm vulnerabilities (2 critical, 16 high)~~ | ✅ Fixed in HT-29: react-router 7, Vite 8, Tailwind 4, lockfile refresh. `npm audit` = **0** | — |
+| 13 | ~~Playwright E2E suite: 6 of 7 tests failing~~ | ✅ Fixed in HT-29: real login, isolated test DB/ports, tests match current UI. 10 tests, see §9 | — |
+| 14 | ESLint 9 (migrated from 8 in HT-29) is already marked deprecated by npm; ESLint 10 is blocked because `eslint-plugin-react` 7.37.5 only supports ESLint ≤ 9 | One `npm warn deprecated eslint@9` line on install; lint itself works | Dev: upgrade when the React plugin supports ESLint 10 |
+| 15 | `npm audit fix` / `npm update` crash on **npm 10** (`Cannot read properties of null (reading 'edgesOut')`, npm resolver bug). `npm ci` / `npm install` with the committed lockfile work fine | Changing dependencies needs npm 11: `npx npm@11 install <pkg>` | Dev + DevOps |
+| 16 | ~~Must-Do tasks never saved as must-do~~ (`isMustDo` missing from the shared task schema, so the API stripped it) | ✅ Fixed in HT-29, with unit test | — |
+| 17 | ~~Wrong password reloaded the login page without an error~~ | ✅ Fixed in HT-29 | — |
+| 18 | The configured Hugging Face account returns **HTTP 402 (no credits)**, so AI features show "offline" | AI insights and the Assistant don't work until the token has credits or `AI_PROVIDER=gemini` is used | DevOps (secret/account) |
+
+## 9. Tests
+
+| Command (repo root) | What | Needs |
+|---|---|---|
+| `npm run lint` | ESLint 9 (`eslint.config.mjs`) on all workspaces | — |
+| `npm test` | Server unit tests (Vitest) | Node 22 |
+| `npm run test:e2e:install` | Downloads Playwright's Chromium (once per Playwright version) | Internet |
+| `npm run test:e2e` | 10 browser tests. Playwright **starts its own** API on `:5100` and frontend on `:5174`, so it works while `npm run dev` is running | MongoDB on `localhost:27017` (override with `E2E_MONGODB_URI`) |
+
+- E2E uses its own database `habit-tracker-e2e` (never your dev data) and registers a new random user each run.
+- The AI endpoint is stubbed in E2E, so no AI key or credits are needed.
+- In CI set `CI=1`: no server reuse, 1 worker, 2 retries, HTML report in `playwright-report/`.
+- On Linux CI agents, Chromium also needs system libraries: `npx playwright install --with-deps chromium` (needs root).
