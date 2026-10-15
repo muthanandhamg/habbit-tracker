@@ -178,7 +178,7 @@ export default function AIAssistant() {
       </div>
 
       {/* Main Chat Interface */}
-      <div className="flex-1 flex flex-col bg-bg-surface/30 border border-border-subtle rounded-3xl overflow-hidden shadow-2xl backdrop-blur-sm">
+      <div className="flex-1 flex flex-col bg-bg-surface/30 border border-border-subtle rounded-3xl overflow-hidden shadow-2xl backdrop-blur-xs">
         {/* Messages Feed */}
         <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-8 scrollbar-thin">
           <AnimatePresence initial={false}>
@@ -193,7 +193,7 @@ export default function AIAssistant() {
                 <div className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 border transition-all duration-500 ${
                   message.role === 'assistant'
                     ? 'bg-accent-assistant/10 border-accent-assistant/20 text-accent-assistant shadow-lg shadow-accent-assistant/5'
-                    : 'bg-bg-elevated border-border-subtle text-text-secondary shadow-sm'
+                    : 'bg-bg-elevated border-border-subtle text-text-secondary shadow-xs'
                 }`}>
                   {message.role === 'assistant' ? <Sparkles className="w-5 h-5" /> : <Terminal className="w-5 h-5" />}
                 </div>
@@ -202,7 +202,7 @@ export default function AIAssistant() {
                 <div className={`max-w-[85%] sm:max-w-[75%] space-y-2 ${message.role === 'user' ? 'items-end' : ''}`}>
                   <div className={`rounded-2xl px-5 py-4 text-sm leading-relaxed ${
                     message.role === 'assistant'
-                      ? 'bg-bg-surface border border-border-subtle text-text-primary shadow-sm'
+                      ? 'bg-bg-surface border border-border-subtle text-text-primary shadow-xs'
                       : 'bg-accent-assistant text-white font-medium shadow-xl shadow-accent-assistant/10'
                   }`}>
                     {message.content}
@@ -308,7 +308,7 @@ export default function AIAssistant() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleSend()}
                   placeholder="Initiate prompt sequence..."
-                  className="w-full bg-bg-surface border border-border-subtle rounded-2xl pl-12 pr-4 py-4 text-sm text-text-primary focus:border-accent-assistant outline-none transition-all shadow-inner focus:ring-1 focus:ring-accent-assistant/20"
+                  className="w-full bg-bg-surface border border-border-subtle rounded-2xl pl-12 pr-4 py-4 text-sm text-text-primary focus:border-accent-assistant outline-hidden transition-all shadow-inner focus:ring-1 focus:ring-accent-assistant/20"
                   disabled={isLoading}
                 />
               </div>

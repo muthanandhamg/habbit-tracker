@@ -251,7 +251,7 @@ export default function Habits() {
                 onClick={() => setActiveCategory(key)}
                 className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-300 ${
                   activeCategory === key
-                    ? 'bg-accent-habit/20 text-accent-habit shadow-sm'
+                    ? 'bg-accent-habit/20 text-accent-habit shadow-xs'
                     : 'text-text-secondary hover:text-text-primary hover:bg-bg-elevated'
                 }`}
               >
@@ -442,9 +442,9 @@ export default function Habits() {
 
       {/* Add Habit Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center z-50">
           <div className="card-elevated p-6 w-full max-w-md mx-4">
-            <h3 className="text-xl font-heading font-bold text-text-primary uppercase tracking-[0.1em] border-b border-border-subtle pb-4 mb-6">
+            <h3 className="text-xl font-heading font-bold text-text-primary uppercase tracking-widest border-b border-border-subtle pb-4 mb-6">
               Initialize Habit
             </h3>
 
@@ -488,7 +488,7 @@ export default function Habits() {
                       />
                       
                       {/* Tooltip */}
-                      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-bg-app border border-border-bright px-2 py-1 rounded text-[10px] uppercase tracking-tighter text-text-primary opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10 shadow-xl">
+                      <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-bg-app border border-border-bright px-2 py-1 rounded-sm text-[10px] uppercase tracking-tighter text-text-primary opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10 shadow-xl">
                         {opt.name}
                       </div>
                     </button>

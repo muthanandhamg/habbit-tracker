@@ -7,6 +7,7 @@ export const taskSchema = z.object({
   description: z.string().max(2000).optional(),
   priority: z.enum(['low', 'medium', 'high', 'urgent']).default('medium'),
   status: z.enum(['todo', 'in_progress', 'done', 'cancelled']).default('todo'),
+  isMustDo: z.boolean().default(false),
   dueDate: z.string().datetime().optional(),
   dueTime: z.string().regex(/^\d{2}:\d{2}$/).optional(),
   estimatedDuration: z.number().int().positive().optional(),

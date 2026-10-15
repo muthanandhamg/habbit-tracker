@@ -215,11 +215,11 @@ export default function Wellness() {
                   <button
                     key={score}
                     onClick={() => updateEntry({ mood: { ...(data?.mood || {emotions: []}), score }})}
-                    className={`flex-1 rounded-sm transition-all duration-300 ${
+                    className={`flex-1 rounded-xs transition-all duration-300 ${
                       isActive 
                         ? 'bg-accent-wellness shadow-[0_0_8px_rgba(110,231,183,0.3)]' 
                         : 'bg-bg-lowered group-hover:bg-bg-elevated/50'
-                    } hover:!bg-accent-wellness hover:opacity-80`}
+                    } hover:bg-accent-wellness! hover:opacity-80`}
                   />
                 );
               })}
@@ -276,7 +276,7 @@ export default function Wellness() {
                   }}
                   className="w-8 h-8 flex items-center justify-center rounded-lg bg-bg-lowered hover:bg-bg-elevated text-text-secondary hover:text-text-primary transition-colors cursor-pointer"
                 >-</button>
-                <div className="flex items-baseline gap-1 min-w-[3rem] justify-center">
+                <div className="flex items-baseline gap-1 min-w-12 justify-center">
                   <span className="text-xl font-mono text-text-primary">{data?.sleep?.duration || 0}</span>
                   <span className="text-[10px] text-text-muted pb-0.5">hrs</span>
                 </div>
@@ -307,7 +307,7 @@ export default function Wellness() {
                         isActive 
                           ? 'bg-accent-wellness shadow-[0_0_5px_rgba(110,231,183,0.3)]' 
                           : 'bg-bg-lowered group-hover:bg-bg-elevated/50'
-                      } hover:!bg-accent-wellness hover:opacity-80`}
+                      } hover:bg-accent-wellness! hover:opacity-80`}
                     />
                   );
                 })}
@@ -322,7 +322,7 @@ export default function Wellness() {
                 <Droplets className="w-4 h-4" /> Hydration
               </label>
               <div className="flex items-baseline gap-1">
-                <span className="text-accent-wellness font-mono text-xl">
+                <span className="text-accent-wellness font-mono text-xl" data-testid="water-intake">
                   {data?.nutrition?.waterIntake || 0}
                 </span>
                 <span className="text-xs text-text-muted">/ 3000ml</span>
@@ -375,7 +375,7 @@ export default function Wellness() {
                 onClick={() => setActiveCategory(key)}
                 className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-300 ${
                   activeCategory === key
-                    ? 'bg-accent-wellness/20 text-accent-wellness shadow-sm'
+                    ? 'bg-accent-wellness/20 text-accent-wellness shadow-xs'
                     : 'text-text-secondary hover:text-text-primary hover:bg-bg-elevated'
                 }`}
               >
@@ -389,7 +389,7 @@ export default function Wellness() {
             <button
               key={preset.name}
               onClick={() => addPresetHabit(preset.name, preset.icon, preset.desc)}
-              className="flex flex-col items-start justify-center p-6 rounded-2xl bg-bg-surface border border-border-subtle hover:bg-bg-elevated hover:border-accent-wellness/50 hover:-translate-y-1 transition-all duration-300 group shadow-sm hover:shadow-md cursor-pointer overflow-hidden relative"
+              className="flex flex-col items-start justify-center p-6 rounded-2xl bg-bg-surface border border-border-subtle hover:bg-bg-elevated hover:border-accent-wellness/50 hover:-translate-y-1 transition-all duration-300 group shadow-xs hover:shadow-md cursor-pointer overflow-hidden relative"
             >
               <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                 <ModuleIcon name={preset.icon} size={80} module="wellness" />

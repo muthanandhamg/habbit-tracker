@@ -14,11 +14,9 @@ export const Logger = {
     }
   },
   error: (message: string, ...args: unknown[]) => {
-    // eslint-disable-next-line no-console
     console.error(`[ERROR] ${message}`, ...args);
   },
   warn: (message: string, ...args: unknown[]) => {
-    // eslint-disable-next-line no-console
     console.warn(`[WARN] ${message}`, ...args);
   },
   debug: (message: string, ...args: unknown[]) => {
