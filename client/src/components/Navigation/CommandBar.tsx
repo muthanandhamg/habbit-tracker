@@ -190,7 +190,6 @@ export const CommandBar: React.FC = () => {
     }
 
     if (Object.keys(nextPayload).length === 0) {
-      // eslint-disable-next-line no-console
       console.warn('AI Wellness data mismatch:', data);
       throw new Error('not_applicable');
     }
@@ -317,7 +316,6 @@ export const CommandBar: React.FC = () => {
         pendingAction: actionable ? data : null,
       });
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error('AI Gateway Error:', error);
       setDialog({
         isOpen: true,
