@@ -7,8 +7,15 @@ Welcome to **Life-OS**, a premium, AI-powered life optimization platform. Track 
 ## 🚀 Quick Start
 
 ### 1. Prerequisites
-- **Node.js**: `v18.0.0` or higher
-- **MongoDB** *(optional)*: A running local instance or a remote Atlas connection string. If unavailable, the app falls back to an **in-memory database** automatically.
+- **Node.js 22** (pinned in `.nvmrc`). With nvm: run `nvm install` then `nvm use` in the repo root.
+- **MongoDB 7.0** *(required, there is no fallback: the server exits if it can't connect)*. Run it locally with Docker:
+  ```bash
+  docker run -d --name habit-tracker -p 27017:27017 -v habit-tracker-data:/data/db mongo:7.0
+  ```
+  - **Why 7.0, not `latest`:** MongoDB 8+/9 refuses to start on Linux kernel 6.19 and newer
+    ("MongoDB cannot start: Linux kernel versions 6.19 and newer has a known incompatibility"),
+    see [SERVER-121912](https://jira.mongodb.org/browse/SERVER-121912). 7.0 works with no workaround.
+  - ⚠️ Never attach a data volume created by a **newer** MongoDB version. Older versions can't read it and won't start.
 - **AI Provider Key**: One of the following:
   - **Hugging Face** *(default)*: Get a token from [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
   - **Gemini**: Get an API key from [Google AI Studio](https://aistudio.google.com/apikey)
@@ -34,8 +41,8 @@ Edit `server/.env` with your credentials:
 PORT=5000
 NODE_ENV=development
 
-# Database (falls back to in-memory if unavailable)
-MONGODB_URI=mongodb://localhost:27017/life-os
+# Database 
+MONGODB_URI=mongodb://localhost:27017/habit-tracker
 
 # JWT Authentication
 JWT_SECRET=your_secure_secret_key
