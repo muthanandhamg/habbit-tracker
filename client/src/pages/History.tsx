@@ -580,7 +580,7 @@ export default function History() {
                       const isSelected = fromDate && toDate && isBetweenInclusive(cell.dateKey, fromDate, toDate)
                       const isEdge = cell.dateKey === fromDate || cell.dateKey === toDate
                       const base =
-                        'h-9 w-full rounded-xl text-xs font-semibold transition-all focus:outline-none'
+                        'h-9 w-full rounded-xl text-xs font-semibold transition-all focus:outline-hidden'
 
 
                       const inMonthTone = cell.inMonth ? 'text-text-primary' : 'text-text-muted/30'
@@ -653,7 +653,7 @@ export default function History() {
         <div className="space-y-8">
           {groupedTimeline.map((group) => (
             <section key={group.dateKey} className="space-y-3">
-              <div className="sticky top-0 z-10 -mx-2 rounded-2xl bg-bg-surface/90 px-2 py-2 backdrop-blur">
+              <div className="sticky top-0 z-10 -mx-2 rounded-2xl bg-bg-surface/90 px-2 py-2 backdrop-blur-sm">
                 <div className="flex items-center justify-between">
                   <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-text-primary">
                     {group.label}
@@ -672,10 +672,10 @@ export default function History() {
                     onClick={() => setSelectedRecord(record)}
                     className="group relative rounded-2xl border border-border-subtle bg-bg-surface/40 p-4 transition-all hover:border-border-bright hover:bg-bg-surface/60 cursor-pointer overflow-hidden"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent-gold/0 to-accent-gold/0 group-hover:from-accent-gold/[0.02] group-hover:to-accent-gold/[0.05] transition-all duration-500" />
+                    <div className="absolute inset-0 bg-linear-to-br from-accent-gold/0 to-accent-gold/0 group-hover:from-accent-gold/2 group-hover:to-accent-gold/5 transition-all duration-500" />
                     <div className="relative flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                       <div className="flex gap-4">
-                        <div className="mt-0.5 aspect-square rounded-xl bg-bg-elevated/80 border border-border-subtle p-2.5 group-hover:border-accent-gold/40 transition-all shadow-sm flex items-center justify-center min-w-[42px] h-[42px] backdrop-blur-md">
+                        <div className="mt-0.5 aspect-square rounded-xl bg-bg-elevated/80 border border-border-subtle p-2.5 group-hover:border-accent-gold/40 transition-all shadow-xs flex items-center justify-center min-w-[42px] h-[42px] backdrop-blur-md">
 
                           <ModuleIcon 
                             name={record.type === 'habit' ? 'discipline' : record.type === 'task' ? 'todo' : record.type === 'wellness' ? 'activity' : 'journal'} 
@@ -727,7 +727,7 @@ export default function History() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedRecord(null)}
-              className="absolute inset-0 bg-bg-app/80 backdrop-blur-sm"
+              className="absolute inset-0 bg-bg-app/80 backdrop-blur-xs"
             />
             
             <motion.div

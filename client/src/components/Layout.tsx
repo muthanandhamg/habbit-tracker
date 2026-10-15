@@ -74,14 +74,14 @@ export default function Layout() {
       {/* Sidebar Backdrop */}
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
+          className="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-300"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <aside className={`
-        fixed lg:static inset-y-0 left-0 w-72 flex-shrink-0 h-full bg-bg-lowered border-r border-border-subtle 
+        fixed lg:static inset-y-0 left-0 w-72 shrink-0 h-full bg-bg-lowered border-r border-border-subtle 
         flex flex-col z-50 transition-transform duration-300 ease-in-out lg:translate-x-0 overflow-y-auto
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
@@ -138,10 +138,10 @@ export default function Layout() {
           <div className="glass-panel p-3.5 rounded-2xl flex items-center justify-between gap-3 bg-bg-surface/30 border border-border-subtle hover:border-accent-gold/20 transition-all duration-300">
             <Link 
               to="/profile" 
-              className="flex items-center gap-3 group flex-1 min-w-0 outline-none"
+              className="flex items-center gap-3 group flex-1 min-w-0 outline-hidden"
               data-testid="nav-profile"
             >
-              <div className="w-10 h-10 rounded-full bg-bg-surface border border-border-bright flex-shrink-0 flex items-center justify-center shadow-md group-hover:border-accent-gold transition-colors">
+              <div className="w-10 h-10 rounded-full bg-bg-surface border border-border-bright shrink-0 flex items-center justify-center shadow-md group-hover:border-accent-gold transition-colors">
                 <UserIcon className="w-5 h-5 text-accent-gold" />
               </div>
               <div className="overflow-hidden">

@@ -342,13 +342,13 @@ export const CommandBar: React.FC = () => {
           animate={{ y: 0, opacity: 1 }}
           onClick={() => setIsOpen(true)}
           data-testid="command-bar-trigger"
-          className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full glass-panel flex items-center gap-2 sm:gap-3 group transition-all duration-300 hover:border-accent-gold/50 shadow-premium z-[60]"
+          className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full glass-panel flex items-center gap-2 sm:gap-3 group transition-all duration-300 hover:border-accent-gold/50 shadow-premium z-60"
         >
           <Sparkles className="w-5 h-5 text-accent-gold animate-pulse" />
           <span className="text-text-secondary font-precision text-xs sm:text-sm font-medium group-hover:text-text-primary transition-colors">
             Ask AI...
           </span>
-          <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded bg-border-subtle border border-border-subtle text-[10px] font-mono text-text-muted">
+          <div className="hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-sm bg-border-subtle border border-border-subtle text-[10px] font-mono text-text-muted">
             <Command className="w-2.5 h-2.5" /> K
           </div>
         </motion.button>
@@ -357,13 +357,13 @@ export const CommandBar: React.FC = () => {
       {/* Expanded Command Interface */}
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="absolute inset-0 bg-surface/60 backdrop-blur-sm"
+              className="absolute inset-0 bg-surface/60 backdrop-blur-xs"
             />
             
             <motion.div
@@ -389,7 +389,7 @@ export const CommandBar: React.FC = () => {
                   disabled={isProcessing}
                   data-testid="command-bar-input"
                   className={clsx(
-                    "flex-1 bg-transparent border-none outline-none text-text-primary font-precision text-lg placeholder:text-text-muted",
+                    "flex-1 bg-transparent border-none outline-hidden text-text-primary font-precision text-lg placeholder:text-text-muted",
                     isProcessing && "opacity-50 cursor-not-allowed"
                   )}
                 />
@@ -444,7 +444,7 @@ export const CommandBar: React.FC = () => {
       {/* System Dialog */}
       <AnimatePresence>
         {dialog.isOpen && (
-          <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-120 flex items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -515,7 +515,7 @@ export const CommandBar: React.FC = () => {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 24 }}
-            className="fixed bottom-24 left-1/2 z-[140] -translate-x-1/2 rounded-2xl border border-border-bright bg-bg-surface px-4 py-3 text-sm text-text-primary shadow-premium"
+            className="fixed bottom-24 left-1/2 z-140 -translate-x-1/2 rounded-2xl border border-border-bright bg-bg-surface px-4 py-3 text-sm text-text-primary shadow-premium"
           >
             {toast.message}
           </motion.div>

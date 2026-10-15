@@ -394,7 +394,7 @@ export default function Dashboard() {
             Chat
           </Link>
         </div>
-        <div className="p-5 rounded-2xl bg-gradient-to-br from-bg-elevated to-bg-surface border border-accent-assistant/20 shadow-lg shadow-accent-assistant/5">
+        <div className="p-5 rounded-2xl bg-linear-to-br from-bg-elevated to-bg-surface border border-accent-assistant/20 shadow-lg shadow-accent-assistant/5">
           <div className="text-text-primary text-sm leading-relaxed flex items-start gap-4">
             <div className="p-2 rounded-xl bg-accent-assistant/10 border border-accent-assistant/20 shrink-0">
               <Sparkles size={18} className="text-accent-assistant" />

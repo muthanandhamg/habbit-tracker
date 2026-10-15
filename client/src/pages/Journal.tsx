@@ -135,7 +135,7 @@ export default function Journal() {
               to="/history?filter=journal" 
               className="group flex items-center gap-2 px-5 py-2.5 rounded-full bg-bg-surface border border-border-subtle text-sm font-medium text-text-secondary hover:text-text-primary hover:border-border-bright transition-all"
             >
-              <History className="w-4 h-4 group-hover:rotate-[-12deg] transition-transform" />
+              <History className="w-4 h-4 group-hover:-rotate-12 transition-transform" />
               Archive
             </Link>
             <button 
@@ -184,7 +184,7 @@ export default function Journal() {
                           key={score}
                           type="button"
                           onClick={() => setNewMood(score)}
-                          className={`flex-1 rounded-sm transition-all duration-300 ${
+                          className={`flex-1 rounded-xs transition-all duration-300 ${
                             isActive 
                               ? 'bg-accent-assistant shadow-[0_0_8px_rgba(150,150,255,0.3)]' 
                               : 'bg-bg-lowered'
@@ -209,7 +209,7 @@ export default function Journal() {
                     value={newTags}
                     onChange={(e) => setNewTags(e.target.value)}
                     placeholder="reflection, clarity, focus..."
-                    className="w-full bg-bg-surface border border-border-subtle rounded-xl px-4 py-2.5 text-sm focus:border-accent-assistant transition-all outline-none"
+                    className="w-full bg-bg-surface border border-border-subtle rounded-xl px-4 py-2.5 text-sm focus:border-accent-assistant transition-all outline-hidden"
                   />
                 </div>
               </div>
@@ -249,7 +249,7 @@ export default function Journal() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Filter thoughts..."
-              className="w-full bg-bg-surface border border-border-subtle rounded-full pl-11 pr-4 py-2.5 text-sm focus:border-accent-assistant outline-none transition-all"
+              className="w-full bg-bg-surface border border-border-subtle rounded-full pl-11 pr-4 py-2.5 text-sm focus:border-accent-assistant outline-hidden transition-all"
             />
           </div>
           <div className="flex gap-6">
@@ -267,7 +267,7 @@ export default function Journal() {
         </div>
 
         {/* Dynamic Entry Timeline */}
-        <div className="space-y-16 relative before:absolute before:left-[17px] before:top-4 before:bottom-0 before:w-px before:bg-gradient-to-b before:from-border-subtle before:via-border-subtle/20 before:to-transparent">
+        <div className="space-y-16 relative before:absolute before:left-[17px] before:top-4 before:bottom-0 before:w-px before:bg-linear-to-b before:from-border-subtle before:via-border-subtle/20 before:to-transparent">
           {filteredEntries.map((entry) => (
             <motion.div 
               layout
@@ -287,7 +287,7 @@ export default function Journal() {
                         {entry.title || 'Untitled Thought'}
                       </h3>
                       {entry.mood && (
-                        <span className="text-xs font-mono px-2 py-0.5 rounded bg-bg-surface border border-border-subtle text-text-muted">
+                        <span className="text-xs font-mono px-2 py-0.5 rounded-sm bg-bg-surface border border-border-subtle text-text-muted">
                           {entry.mood}/10
                         </span>
                       )}

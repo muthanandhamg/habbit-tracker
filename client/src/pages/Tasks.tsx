@@ -146,7 +146,7 @@ export default function Tasks() {
               <div 
                 key={task._id} 
                 data-testid={`task-item-${task.title.toLowerCase().replace(/\s+/g, '-')}`}
-                className="flex items-center gap-3 p-4 rounded-xl bg-bg-surface/50 border border-border-subtle hover:border-accent-task/30 transition-all group shadow-sm"
+                className="flex items-center gap-3 p-4 rounded-xl bg-bg-surface/50 border border-border-subtle hover:border-accent-task/30 transition-all group shadow-xs"
               >
                 <button 
                   onClick={() => toggleTask(task._id, task.status)}
@@ -284,7 +284,7 @@ export default function Tasks() {
 
       {/* Add Task Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center z-50">
           <div className="card-elevated p-6 w-full max-w-md mx-4 animate-in">
             <h3 className="text-xl font-heading font-semibold text-text-primary mb-6">
               Create New Objective
