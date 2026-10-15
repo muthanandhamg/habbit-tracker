@@ -47,7 +47,7 @@
 
   .premium-card {
     @apply bg-bg-surface rounded-xl p-6 border border-border-subtle transition-all duration-300;
-    @apply hover:border-accent-gold/30 hover:shadow-premium hover:-translate-y-1;
+    @apply hover:border-accent-gold/30 hover:-translate-y-1;
   }
 
   .accent-button {
